@@ -25,14 +25,48 @@ public class MonkeyTypewriter {
         // A Tale Of Two Cities.
 
 
+        // Unsafe Copier
+//        UnsafeCopier unsafeCopier = new UnsafeCopier(introduction);
+//        makeAndStartMonkeys(unsafeCopier, 5);
+
+        // Synchronized Copier
+
+//        SynchLockCopier synchLockCopier = new SynchLockCopier(introduction);
+//        makeAndStartMonkeys(synchLockCopier, 5);
+
+        // Safe Copier
+        SafeCopier safeCopier = new SafeCopier(introduction);
+        makeAndStartMonkeys(safeCopier, 5);
+
+
         // This wait is here because main is still a thread and we want the main method to print the finished copies
         // after enough time has passed.
         try {
-            Thread.sleep(1000);
+            Thread.sleep(10000);
         } catch(InterruptedException e) {
             System.out.println("MAIN INTERRUPTED");
         }
 
         // Print out the copied versions here.
+
+        // Unsafe Copier
+//        System.out.println(unsafeCopier.copied);
+
+        // Synchronized Copier
+//        System.out.println(synchLockCopier.copied);
+
+        // Safe Copier
+        System.out.println(safeCopier.copied);
+    }
+
+    public static void makeAndStartMonkeys(Copier copier, int monkeys){
+        Thread[] monkeyArray = new Thread[monkeys];
+        for (int i = 0; i < monkeyArray.length; i++) {
+            Thread monkey = new Thread(copier);
+            monkeyArray[i] = monkey;
+        }
+        for (Thread monkey : monkeyArray) {
+            monkey.start();
+        }
     }
 }
